@@ -1,0 +1,28 @@
+<div class="col-lg-10">
+    <h3>
+        {{title}}
+    </h3>
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        Tin nhắn đã gửi
+        Xem trong <a [routerLink]="['/messenger/sent']">Tin nhắn đã gửi</a>
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        Gửi tin nhắn thất bại
+    </div>
+    <form #formAdd="ngForm" (ngSubmit)="onSubmit(formAdd)">
+        <p>
+            <label>Tới</label>
+            <select *ngIf="follows" name="receiver" #receiver="ngModel" [(ngModel)]="message.receiver" class="form-control" required>
+                <option *ngFor="let follow of follows" value="{{follow.user._id}}">
+                    {{follow.user.name + ' ' + follow.user.surname + ' ('+ follow.user.nick + ')' }}
+                </option>
+            </select>
+        </p>
+        <p>
+            <label>Nội dung</label>
+            <textarea name="text" #text="ngModel" [(ngModel)]="message.text" class="form-control" required></textarea>
+            <span *ngIf="!text.valid && text.touched">*Trường bắt buộc</span>
+        </p>
+        <input type="submit" value="{{title}}" class="btn btn-success" />
+    </form>
+</div>

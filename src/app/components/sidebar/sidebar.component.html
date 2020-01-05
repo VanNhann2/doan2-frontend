@@ -1,0 +1,79 @@
+<div class="col-lg-4 sidebar-32">
+    <h1 class="h1-strong">Xin chào {{identity.name}}</h1>
+</div>
+<div id="user-card" class="col-lg-4 panel panel-default pull-left">
+    <div class="avatar pull-left">
+        <img src="{{ url + 'get-image-user/' + identity.image }}" *ngIf="identity.image"/>
+        <img src="assets/user.png" *ngIf="!identity.image"/>
+    </div>
+    <div class="name-surname pull-left">
+        <a [routerLink]="['/perfil', identity._id]" class="username">
+            {{identity.name + ' ' + identity.surname}}
+        </a>
+        <p class="nickname">
+            {{identity.nick}}
+        </p>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="stats" *ngIf="stats">
+        <div class="following-data">
+            <a [routerLink]="['/siguiendo', identity._id, 1]">
+                <span class="label-stats">
+                    Theo dõi
+                </span>
+                <span class="number-stats">
+                    {{stats.following}}
+                </span>
+            </a>
+        </div>
+        <div class="following-data">
+            <a [routerLink]="['/seguidores', identity._id, 1]">
+                <span class="label-stats">
+                    Đang theo dõi
+                </span>
+                <span class="number-stats">
+                    {{stats.followed}}
+                </span>
+            </a>
+        </div>
+        <div class="following-data">
+            <a [routerLink]="['/perfil', identity._id]">
+                <span class="label-stats">
+                    Bài viết
+                </span>
+                <span class="number-stats">
+                    {{stats.publications}}
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+<div id="new-publication" class="col-lg-4 pull-left panel panel-default">
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        Đăng tin thành công
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        Đăng tin thất bại
+    </div>
+    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm, $event)" class="col-lg-10">
+        <p>
+            <label>Hôm nay của bạn như thế nào?</label>
+            <textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required></textarea>
+            <span *ngIf="!text.valid && text.touched">*Trường bắt buộc</span>
+        </p>
+        <p>
+            <label>Tải ảnh</label>
+            <input type="file" placeholder="Subir imagen" (change)="fileChangeEvent($event)" />
+        </p>
+        <input type="submit" value="Đăng Tin" class="btn btn-success" [disabled]="!newPubForm.form.valid" />
+    </form>
+</div>
+
+URL: <input type="text" id="longurl" name="url" value="http://www.hayageek.com" /> <br/>
+<input type="button" value="Create Short" onclick="makeShort();" /> <br/> <br/>
+
+URL: <input type="text" id="shorturl" name="url" value="http://www.hayageek.com" /> <br/>
+<input type="button" value="Get Short  URL Info" onclick="getShortInfo();" />
+
+<div id="output"></div>
